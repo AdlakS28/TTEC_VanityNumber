@@ -1,0 +1,315 @@
+---
+Metadata:
+  TemplateId: "arn:aws:cloudformation:us-east-1:590183960149:generatedTemplate/a0c77c21-cf60-4686-b6ef-46bc9bc69601"
+Parameters:
+  LambdaFunction00generateVanityNumbers00QsO7jCodeS3KeyOneOfyh5je:
+    NoEcho: "true"
+    Type: "String"
+    Description: "The Amazon S3 key of the deployment package.\nThis property can\
+      \ be replaced with other exclusive properties"
+  LambdaFunction00generateVanityNumbers00QsO7jCodeS3BucketOneOf5G5Fo:
+    NoEcho: "true"
+    Type: "String"
+    Description: "An Amazon S3 bucket in the same AWS-Region as your function. The\
+      \ bucket can be in a different AWS-account.\nThis property can be replaced with\
+      \ other exclusive properties"
+Resources:
+  LambdaPermission00functiongenerateVanityNumbers00NtEWp:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Lambda::Permission"
+    DeletionPolicy: "Retain"
+    Properties:
+      FunctionName:
+        Fn::GetAtt:
+        - "LambdaFunction00generateVanityNumbers00QsO7j"
+        - "Arn"
+      Action: "lambda:InvokeFunction"
+      SourceArn: "arn:aws:connect:us-east-1:590183960149:instance/ce60de5c-7227-48db-aa2c-e91fc08dcbf8"
+      Principal: "connect.amazonaws.com"
+      SourceAccount: "590183960149"
+  CloudWatchAlarm00TargetTrackingtableVanityNumbersTableAlarmLow9d8519902d9c4ac38924121d25e098db001KtDI:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudWatch::Alarm"
+    DeletionPolicy: "Retain"
+    Properties:
+      ComparisonOperator: "LessThanThreshold"
+      Dimensions:
+      - Value:
+          Ref: "DynamoDBTable00VanityNumbersTable00ahQe5"
+        Name: "TableName"
+      Period: 60
+      EvaluationPeriods: 15
+      Namespace: "AWS/DynamoDB"
+      OKActions: []
+      AlarmActions:
+      - "arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:a2189b84-70ce-4fc5-8928-0991498faa15:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/5b4909e7-93a2-4d0d-8320-6d1aa5696e7a"
+      MetricName: "ConsumedReadCapacityUnits"
+      ActionsEnabled: true
+      AlarmDescription: "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:a2189b84-70ce-4fc5-8928-0991498faa15:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/5b4909e7-93a2-4d0d-8320-6d1aa5696e7a."
+      AlarmName: "TargetTracking-table/VanityNumbersTable-AlarmLow-9d851990-2d9c-4ac3-8924-121d25e098db"
+      Statistic: "Sum"
+      InsufficientDataActions: []
+      Threshold: 30
+  IAMManagedPolicy00policyserviceroleAWSLambdaBasicExecutionRole8e438203ea7b4eb394d3963361cf6e6d00TcNC9:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::ManagedPolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      ManagedPolicyName: "AWSLambdaBasicExecutionRole-8e438203-ea7b-4eb3-94d3-963361cf6e6d"
+      Path: "/service-role/"
+      Description: ""
+      Groups: []
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Resource: "arn:aws:logs:us-east-1:590183960149:*"
+          Action: "logs:CreateLogGroup"
+          Effect: "Allow"
+        - Resource:
+          - "arn:aws:logs:us-east-1:590183960149:log-group:/aws/lambda/generateVanityNumbers:*"
+          Action:
+          - "logs:CreateLogStream"
+          - "logs:PutLogEvents"
+          Effect: "Allow"
+      Roles:
+      - "generateVanityNumbers-role-8sidfu1q"
+      Users: []
+  DynamoDBTable00VanityNumbersTable00ahQe5:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::DynamoDB::Table"
+    DeletionPolicy: "Retain"
+    Properties:
+      SSESpecification:
+        SSEEnabled: false
+      TableName: "VanityNumbersTable"
+      AttributeDefinitions:
+      - AttributeType: "S"
+        AttributeName: "phone_number"
+      ContributorInsightsSpecification:
+        Enabled: false
+      BillingMode: "PROVISIONED"
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: false
+      ProvisionedThroughput:
+        WriteCapacityUnits: 1
+        ReadCapacityUnits: 1
+      KeySchema:
+      - KeyType: "HASH"
+        AttributeName: "phone_number"
+      DeletionProtectionEnabled: false
+      TableClass: "STANDARD"
+      Tags: []
+      TimeToLiveSpecification:
+        Enabled: false
+  CloudWatchAlarm00TargetTrackingtableVanityNumbersTableProvisionedCapacityHigh1cfbcd0ba9b34451b85cd705f641b8ab00JMrGJ:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudWatch::Alarm"
+    DeletionPolicy: "Retain"
+    Properties:
+      ComparisonOperator: "GreaterThanThreshold"
+      Dimensions:
+      - Value:
+          Ref: "DynamoDBTable00VanityNumbersTable00ahQe5"
+        Name: "TableName"
+      Period: 300
+      EvaluationPeriods: 3
+      Namespace: "AWS/DynamoDB"
+      OKActions: []
+      AlarmActions:
+      - "arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:4c7acf1f-81f2-46f1-8bc3-ea7e8f70c6a5:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/ade9e9ad-49d1-4db0-bb9f-a6ac7ecb17a8"
+      MetricName: "ProvisionedWriteCapacityUnits"
+      ActionsEnabled: true
+      AlarmDescription: "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:4c7acf1f-81f2-46f1-8bc3-ea7e8f70c6a5:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/ade9e9ad-49d1-4db0-bb9f-a6ac7ecb17a8."
+      AlarmName: "TargetTracking-table/VanityNumbersTable-ProvisionedCapacityHigh-1cfbcd0b-a9b3-4451-b85c-d705f641b8ab"
+      Statistic: "Average"
+      InsufficientDataActions: []
+      Threshold: 1
+  IAMRole00generateVanityNumbersrole8sidfu1q00SZon9:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::Role"
+    DeletionPolicy: "Retain"
+    Properties:
+      Path: "/service-role/"
+      ManagedPolicyArns:
+      - Ref: "IAMManagedPolicy00policyserviceroleAWSLambdaBasicExecutionRole8e438203ea7b4eb394d3963361cf6e6d00TcNC9"
+      - "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+      MaxSessionDuration: 3600
+      RoleName: "generateVanityNumbers-role-8sidfu1q"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Action: "sts:AssumeRole"
+          Effect: "Allow"
+          Principal:
+            Service: "lambda.amazonaws.com"
+  CloudWatchAlarm00TargetTrackingtableVanityNumbersTableProvisionedCapacityHighd727dc1eece7420dbdbd97030a040877002Fp0S:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudWatch::Alarm"
+    DeletionPolicy: "Retain"
+    Properties:
+      ComparisonOperator: "GreaterThanThreshold"
+      Dimensions:
+      - Value:
+          Ref: "DynamoDBTable00VanityNumbersTable00ahQe5"
+        Name: "TableName"
+      Period: 300
+      EvaluationPeriods: 3
+      Namespace: "AWS/DynamoDB"
+      OKActions: []
+      AlarmActions:
+      - "arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:a2189b84-70ce-4fc5-8928-0991498faa15:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/5b4909e7-93a2-4d0d-8320-6d1aa5696e7a"
+      MetricName: "ProvisionedReadCapacityUnits"
+      ActionsEnabled: true
+      AlarmDescription: "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:a2189b84-70ce-4fc5-8928-0991498faa15:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/5b4909e7-93a2-4d0d-8320-6d1aa5696e7a."
+      AlarmName: "TargetTracking-table/VanityNumbersTable-ProvisionedCapacityHigh-d727dc1e-ece7-420d-bdbd-97030a040877"
+      Statistic: "Average"
+      InsufficientDataActions: []
+      Threshold: 1
+  CloudWatchAlarm00TargetTrackingtableVanityNumbersTableAlarmLow4f5ca2544bc74906bb00ea50e42ecc9a00vnrsE:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudWatch::Alarm"
+    DeletionPolicy: "Retain"
+    Properties:
+      ComparisonOperator: "LessThanThreshold"
+      Dimensions:
+      - Value:
+          Ref: "DynamoDBTable00VanityNumbersTable00ahQe5"
+        Name: "TableName"
+      Period: 60
+      EvaluationPeriods: 15
+      Namespace: "AWS/DynamoDB"
+      OKActions: []
+      AlarmActions:
+      - "arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:4c7acf1f-81f2-46f1-8bc3-ea7e8f70c6a5:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/ade9e9ad-49d1-4db0-bb9f-a6ac7ecb17a8"
+      MetricName: "ConsumedWriteCapacityUnits"
+      ActionsEnabled: true
+      AlarmDescription: "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:4c7acf1f-81f2-46f1-8bc3-ea7e8f70c6a5:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/ade9e9ad-49d1-4db0-bb9f-a6ac7ecb17a8."
+      AlarmName: "TargetTracking-table/VanityNumbersTable-AlarmLow-4f5ca254-4bc7-4906-bb00-ea50e42ecc9a"
+      Statistic: "Sum"
+      InsufficientDataActions: []
+      Threshold: 30
+  CloudWatchAlarm00TargetTrackingtableVanityNumbersTableAlarmHigh7d408ef7b3124d68b8ec01d86d007bad00vwqgA:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudWatch::Alarm"
+    DeletionPolicy: "Retain"
+    Properties:
+      ComparisonOperator: "GreaterThanThreshold"
+      Dimensions:
+      - Value:
+          Ref: "DynamoDBTable00VanityNumbersTable00ahQe5"
+        Name: "TableName"
+      Period: 60
+      EvaluationPeriods: 2
+      Namespace: "AWS/DynamoDB"
+      OKActions: []
+      AlarmActions:
+      - "arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:a2189b84-70ce-4fc5-8928-0991498faa15:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/5b4909e7-93a2-4d0d-8320-6d1aa5696e7a"
+      MetricName: "ConsumedReadCapacityUnits"
+      ActionsEnabled: true
+      AlarmDescription: "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:a2189b84-70ce-4fc5-8928-0991498faa15:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/5b4909e7-93a2-4d0d-8320-6d1aa5696e7a."
+      AlarmName: "TargetTracking-table/VanityNumbersTable-AlarmHigh-7d408ef7-b312-4d68-b8ec-01d86d007bad"
+      Statistic: "Sum"
+      InsufficientDataActions: []
+      Threshold: 42
+  LambdaFunction00generateVanityNumbers00QsO7j:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Lambda::Function"
+    DeletionPolicy: "Retain"
+    Properties:
+      MemorySize: 128
+      Description: ""
+      TracingConfig:
+        Mode: "PassThrough"
+      Timeout: 10
+      RuntimeManagementConfig:
+        UpdateRuntimeOn: "Auto"
+      Handler: "lambda_function.lambda_handler"
+      Code:
+        S3Bucket:
+          Ref: "LambdaFunction00generateVanityNumbers00QsO7jCodeS3BucketOneOf5G5Fo"
+        S3Key:
+          Ref: "LambdaFunction00generateVanityNumbers00QsO7jCodeS3KeyOneOfyh5je"
+      Role:
+        Fn::GetAtt:
+        - "IAMRole00generateVanityNumbersrole8sidfu1q00SZon9"
+        - "Arn"
+      FileSystemConfigs: []
+      FunctionName: "generateVanityNumbers"
+      Runtime: "python3.12"
+      PackageType: "Zip"
+      LoggingConfig:
+        LogFormat: "Text"
+        LogGroup: "/aws/lambda/generateVanityNumbers"
+      EphemeralStorage:
+        Size: 512
+      Architectures:
+      - "x86_64"
+  CloudWatchAlarm00TargetTrackingtableVanityNumbersTableProvisionedCapacityLow0574ee0e336c4c5db0ec5d8daaf8fa7500sycSe:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudWatch::Alarm"
+    DeletionPolicy: "Retain"
+    Properties:
+      ComparisonOperator: "LessThanThreshold"
+      Dimensions:
+      - Value:
+          Ref: "DynamoDBTable00VanityNumbersTable00ahQe5"
+        Name: "TableName"
+      Period: 300
+      EvaluationPeriods: 3
+      Namespace: "AWS/DynamoDB"
+      OKActions: []
+      AlarmActions:
+      - "arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:a2189b84-70ce-4fc5-8928-0991498faa15:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/5b4909e7-93a2-4d0d-8320-6d1aa5696e7a"
+      MetricName: "ProvisionedReadCapacityUnits"
+      ActionsEnabled: true
+      AlarmDescription: "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:a2189b84-70ce-4fc5-8928-0991498faa15:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/5b4909e7-93a2-4d0d-8320-6d1aa5696e7a."
+      AlarmName: "TargetTracking-table/VanityNumbersTable-ProvisionedCapacityLow-0574ee0e-336c-4c5d-b0ec-5d8daaf8fa75"
+      Statistic: "Average"
+      InsufficientDataActions: []
+      Threshold: 1
+  CloudWatchAlarm00TargetTrackingtableVanityNumbersTableProvisionedCapacityLowfa7d2e5b36c142e3bf3b79ad1d55c40e007JgA4:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudWatch::Alarm"
+    DeletionPolicy: "Retain"
+    Properties:
+      ComparisonOperator: "LessThanThreshold"
+      Dimensions:
+      - Value:
+          Ref: "DynamoDBTable00VanityNumbersTable00ahQe5"
+        Name: "TableName"
+      Period: 300
+      EvaluationPeriods: 3
+      Namespace: "AWS/DynamoDB"
+      OKActions: []
+      AlarmActions:
+      - "arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:4c7acf1f-81f2-46f1-8bc3-ea7e8f70c6a5:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/ade9e9ad-49d1-4db0-bb9f-a6ac7ecb17a8"
+      MetricName: "ProvisionedWriteCapacityUnits"
+      ActionsEnabled: true
+      AlarmDescription: "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:4c7acf1f-81f2-46f1-8bc3-ea7e8f70c6a5:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/ade9e9ad-49d1-4db0-bb9f-a6ac7ecb17a8."
+      AlarmName: "TargetTracking-table/VanityNumbersTable-ProvisionedCapacityLow-fa7d2e5b-36c1-42e3-bf3b-79ad1d55c40e"
+      Statistic: "Average"
+      InsufficientDataActions: []
+      Threshold: 1
+  CloudWatchAlarm00TargetTrackingtableVanityNumbersTableAlarmHigh708874cadbb74f7bbf6a097f9217ddf000wj220:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudWatch::Alarm"
+    DeletionPolicy: "Retain"
+    Properties:
+      ComparisonOperator: "GreaterThanThreshold"
+      Dimensions:
+      - Value:
+          Ref: "DynamoDBTable00VanityNumbersTable00ahQe5"
+        Name: "TableName"
+      Period: 60
+      EvaluationPeriods: 2
+      Namespace: "AWS/DynamoDB"
+      OKActions: []
+      AlarmActions:
+      - "arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:4c7acf1f-81f2-46f1-8bc3-ea7e8f70c6a5:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/ade9e9ad-49d1-4db0-bb9f-a6ac7ecb17a8"
+      MetricName: "ConsumedWriteCapacityUnits"
+      ActionsEnabled: true
+      AlarmDescription: "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:us-east-1:590183960149:scalingPolicy:4c7acf1f-81f2-46f1-8bc3-ea7e8f70c6a5:resource/dynamodb/table/VanityNumbersTable:policyName/$VanityNumbersTable-scaling-policy:createdBy/ade9e9ad-49d1-4db0-bb9f-a6ac7ecb17a8."
+      AlarmName: "TargetTracking-table/VanityNumbersTable-AlarmHigh-708874ca-dbb7-4f7b-bf6a-097f9217ddf0"
+      Statistic: "Sum"
+      InsufficientDataActions: []
+      Threshold: 42
