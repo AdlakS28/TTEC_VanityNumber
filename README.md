@@ -25,6 +25,9 @@ Phone numbers to vanity numbers conversion implementation in Amazon Connect usin
 
 # Rrchitecture diagram
 
+      ![image](https://github.com/AdlakS28/TTEC_VanityNumber/assets/60839350/7cbcac21-a569-4a77-b526-4bb106893fd4)
+
+
 # Deployment Instructions
 
 
