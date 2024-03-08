@@ -29,5 +29,10 @@ Phone numbers to vanity numbers conversion implementation in Amazon Connect usin
 
 
 # Deployment Instructions
-
+      1 Download the 'playVanityNumber_CF' flow from the connect flow section of this repository.
+      2 Navigate to the Amazon Connect console. 
+      3 Create a new contact flow by selecting 'Contact Flows' from the left side menu and then 'Create New Contact Flow'
+      4 Select 'Import Flow(beta)' from the upper right corner and select the 'playVanityNumber_CF' file.
+      5 Download the lambda function code file 'generateVanityNumbers.py' from 'lambda' and update lambda function code in your account. 
+      
 
