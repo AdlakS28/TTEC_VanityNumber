@@ -24,8 +24,8 @@ Phone numbers to vanity numbers conversion implementation in Amazon Connect usin
     # **Compliance and Regulations:** Ensure compliance with relevant regulations such as GDPR, HIPAA, or PCI DSS, depending on the nature of the application and the data it handles. Implement appropriate data encryption, access controls, and audit trails to meet regulatory requirements.
 
 # Rrchitecture diagram
+![aqrchitecture diagram](https://github.com/AdlakS28/TTEC_VanityNumber/assets/60839350/33053bbd-bd21-4bce-bcfe-bf1911ab91be)
 
-      ![image](https://github.com/AdlakS28/TTEC_VanityNumber/assets/aqrchitecture diagram.JPG)
 
 
 # Deployment Instructions
